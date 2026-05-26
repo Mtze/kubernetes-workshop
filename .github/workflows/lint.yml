@@ -22,14 +22,27 @@ jobs:
         with:
           file_or_dir: |
             exercises
+            slide-examples
+            templates
             .github/workflows
+          # Helm templates contain Go template directives ({{ ... }}) that are not
+          # valid YAML until helm renders them — they're covered by `helm lint` below.
           config_data: |
             extends: relaxed
+            ignore: |
+              **/helm/**/templates/**
             rules:
               line-length: disable
               document-start: disable
               truthy:
                 check-keys: false
+              # K8s manifests routinely mix dash-aligned and dash-indented sequences;
+              # don't enforce a single style.
+              indentation:
+                indent-sequences: whatever
+              # Tolerate a stray trailing blank line (commonly introduced by editors).
+              empty-lines:
+                max-end: 1
 
   helm-lint:
     name: helm lint

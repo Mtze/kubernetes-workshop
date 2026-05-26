@@ -1,6 +1,6 @@
 # Exercise 02 — Deploying to Kubernetes
 
-> Write the Deployment, Service, and Ingress manifests that put the Pedelec backend onto a Kubernetes cluster.
+> Write the Deployment, Service, and Ingress manifests that put the three Pedelec microservices onto a Kubernetes cluster.
 
 This exercise has two folders:
 

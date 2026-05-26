@@ -1,6 +1,6 @@
 # Architecture
 
-The Pedelec backend is a small three-service system. We use it as a running example throughout the workshop because it's complex enough to need Kubernetes (multiple deployable units, ingress fan-out) and simple enough to fit in your head.
+Pedelec is a small three-service system that runs on the server side. We use it as a running example throughout the workshop because it's complex enough to need Kubernetes (multiple deployable units, ingress fan-out) and simple enough to fit in your head.
 
 ## Services
 

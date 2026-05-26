@@ -1,6 +1,6 @@
 # Exercise 01 — Microservices & Docker Compose
 
-> Get the three Pedelec backend services running locally with Docker Compose and exercise their HTTP APIs.
+> Get the three Pedelec microservices running locally with Docker Compose and exercise their HTTP APIs.
 
 ## Learning goals
 

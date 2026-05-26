@@ -1,4 +1,4 @@
-# Pedelec backend — local Docker Compose setup
+# Pedelec microservices — local Docker Compose setup
 #
 # Image names follow the pattern published by .github/workflows/build-and-publish.yml,
 # but you don't need to pull anything from a registry to run locally:

@@ -1,6 +1,6 @@
-# Kubernetes Workshop — Pedelec Backend
+# Kubernetes Workshop — Pedelec Microservices
 
-A hands-on workshop that takes a three-service Go backend from `docker compose` on your laptop to a Helm-managed deployment on a real Kubernetes cluster.
+A hands-on workshop that takes three Go microservices from `docker compose` on your laptop to a Helm-managed deployment on a real Kubernetes cluster.
 
 The running example is the **Pedelec** app — a tiny system for managing e-bike reservations, locations, and damage reports.
 
@@ -89,4 +89,4 @@ This material is free for educators to use and adapt, including for commercial t
 
 ## Acknowledgements
 
-The Pedelec example backend was originally built for the iOS Praktikum at TUM. This workshop repo extracts and reorganizes the backend + Kubernetes pieces for use as a standalone Kubernetes teaching aid.
+The Pedelec example services were originally built for the iOS Praktikum at TUM. This workshop repo extracts and reorganizes the server-side microservices + Kubernetes pieces for use as a standalone Kubernetes teaching aid.

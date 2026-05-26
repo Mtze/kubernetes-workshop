@@ -1,6 +1,6 @@
 apiVersion: v2
 name: pedelec
-description: Helm chart for the Pedelec backend (reservation, location, damage)
+description: Helm chart for the Pedelec microservices (reservation, location, damage)
 type: application
 version: 0.1.0
 appVersion: "1.0.0"

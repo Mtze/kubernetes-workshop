@@ -1,6 +1,6 @@
 # Exercise 02 — Solution walkthrough
 
-> Reference manifests for deploying the Pedelec backend, plus the reasoning behind each design choice.
+> Reference manifests for deploying the three Pedelec microservices, plus the reasoning behind each design choice.
 
 ## What's here
 

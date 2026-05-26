@@ -1,6 +1,6 @@
 # Exercise 03 — Solution walkthrough
 
-> Finished Helm chart for the Pedelec backend, plus the reasoning behind each templating decision.
+> Finished Helm chart for the three Pedelec microservices, plus the reasoning behind each templating decision.
 
 ## What's here
 

@@ -1,4 +1,4 @@
-# Pedelec ingress — fan-out to the three backend services
+# Pedelec ingress — fan-out to the three microservices
 #
 # IMPORTANT: change the `host:` value below to a hostname you control on your
 # cluster (e.g. <your-namespace>.pedelec.k8s.ase.cit.tum.de). See

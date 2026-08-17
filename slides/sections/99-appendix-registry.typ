@@ -1,34 +1,59 @@
 #import "../lib.typ": *
 
+// Rendered only when cfg.show_registry_appendix is true (see config.typ).
+// Transcribed from slides.pdf pages 65-67 (the "Configure Pull Secrets" slides).
+// Relevant when pulling images from a PRIVATE registry. The default Pedelec
+// images are public, so this is off by default. Registry specifics are shown as
+// placeholders so the appendix is reusable.
+
+#let c-note = rgb("#EF5350")
+#let note = align(right, box(fill: c-note, inset: 8pt, radius: 4pt)[
+  #text(fill: white)[Only needed for a private registry]
+])
+
 = Appendix: Private Registries
 
-// Rendered only when cfg.show_registry_appendix is true (see config.typ).
-// TODO(transcribe): slides ~64-67 (imagePullSecret against a private registry).
+== Configure pull secrets: token
 
-== When your images are not public
+- Create an access token to your registry with `read_registry` scope
+  - e.g. in GitLab: Settings > Repository > Deploy tokens > Add token
+  - e.g. in GHCR: a personal access token with `read:packages`
 
-The default Pedelec images are public on #cfg.image_registry, so any cluster can
-pull them. If your images live on a *private* registry, the cluster needs
-credentials first.
+#v(1em)
+#note
 
-== Create an image pull secret
+== Configure pull secrets: create the secret
+
+- Create the pull secret in your namespace:
 
 ```bash
-kubectl create secret docker-registry regcred \
-  --docker-server=<registry> \
-  --docker-username=<user> \
+kubectl -n <namespace> create secret docker-registry regcred \
+  --docker-server=<your-registry> \
+  --docker-username=<username> \
   --docker-password=<token>
 ```
 
-== Use it in a Pod
+#v(0.6em)
+This is the "manual" way of creating a secret; prefer manifests whenever possible.
 
-Reference the secret in the Pod (or Deployment template) spec:
+#note
+
+== Configure pull secrets: use it
+
+- Keep the secret out of version control; template the namespace in a manifest:
+
+```bash
+kubectl apply -f deployment-secrets.yml
+```
+
+- Reference the secret from the Pod (or Deployment template) spec:
 
 ```yaml
 spec:
   imagePullSecrets:
     - name: regcred
-  containers:
-    - name: reservation
-      image: <registry>/<owner>/pedelec-reservation:latest
 ```
+
+- Kubernetes can now pull the images without further intervention
+
+#note

@@ -2,56 +2,66 @@
 
 = Welcome
 
-== Today's goal
+== Kubernetes (K8s) Basics
 
-By the end of this session you can take a multi-service application from
-`docker compose` on your laptop to a Helm-managed deployment on a real
-Kubernetes cluster, and read, write, and debug the manifests in between.
+*What you will build*
 
-This is a *baseline*: enough to keep exploring on your own, not all of Kubernetes.
+In this workshop, you will start by working with Docker Compose to manage
+multi-container setups, then deploy and explore the Pedelec server-side system.
+You will learn to write Kubernetes manifests, interact with clusters using
+#cfg.cluster_platform and kubectl, and create Deployments, Services, and
+Ingresses. By the end, you will have deployed a microservice architecture to the
+cloud and gained hands-on experience with scalable, containerized application
+management.
 
-== Agenda
-
-#grid(columns: (1fr, 1fr), gutter: 1.5em,
+#grid(columns: (1fr, 1fr), gutter: 1em,
   [
-    *Block 1: Docker Compose*
-    - Services, ports, environment, networks
-    - Run the Pedelec system locally
-    - Scaling and load balancing
+    *Prerequisites*
+    - Containers
+    - Images
+    - Docker
+    - UML
+    - CLI
   ],
   [
-    *Block 2: Kubernetes core*
-    - The reconciliation model, `kubectl`
-    - Namespaces, Pods, Deployments
-    - Services, Ingress and path routing
+    *Key Vocabulary*
+    - Compose File
+    - Kubernetes
+    - kubectl
+    - Manifest
+    - Deployment
+    - Service
+    - Ingress
+    - Helm
   ],
 )
 
-#v(1em)
-*Block 3: Helm* - package the whole application as a reusable chart.
+== Who are we?
 
-== Learning goals
+- #strong(cfg.presenter)
+- Doctoral Student at #cfg.institution
+- Educator at heart
+- Software and Infrastructure Architect
+- Research Areas
+  - Container-based Software Engineering
+  - Infrastructure Orchestration
+  - Scaling Education Technology
 
-+ Understand the key features of Docker Compose.
-+ Create and use custom Docker Compose setups.
-+ Understand the core Kubernetes objects: Namespaces, Pods, Deployments, Services, Ingress.
-+ Use `kubectl` and Helm to interact with a cluster.
+== Pre Survey
 
-== Prerequisites
+*I need your help!*
 
-Install before the session (see `docs/prerequisites.md`):
-- Docker, `kubectl`, and Helm
-- Optionally Bruno (HTTP client) for the API exercises
-- Access to a cluster: #cfg.cluster_platform at #strong(cfg.cluster_url), or any local cluster (kind, minikube, k3d)
+// Survey link (QR code + URL) intentionally omitted.
 
-Then run `./scripts/verify-prereqs.sh`.
+== Learning Goals
 
-== The running example: Pedelec
+*Context and assumptions*
+- You understand the basics of Docker
+- You understand the ISO/OSI Model
+- You know how to use the CLI
 
-// TODO(transcribe): align wording with the deck's Pedelec intro.
-A small e-bike sharing system built from three stateless Go services:
-- *reservation* - pedelecs and reservations (`:8080`)
-- *location* - GPS coordinates per pedelec (`:8081`)
-- *damage* - damage reports (`:8082`)
-
-One example carries us the whole way: Compose, then Kubernetes, then Helm.
+*At the end of this session you are able to*
+- Understand the key features of docker compose
+- Create and use custom docker compose setups
+- Understand the basic concepts of Kubernetes
+- Use kubectl and helm to interact with Kubernetes

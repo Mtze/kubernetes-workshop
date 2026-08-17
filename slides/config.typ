@@ -16,7 +16,7 @@
     group: none,                        // sub-line under the institution (or none)
     presenter: "Instructor Name",
     logo: none,                         // e.g. image("assets/logo.svg", height: 1.1cm)
-    accent: rgb("#2E7D32"),             // theme accent colour
+    accent: rgb("#F28C00"),             // theme accent colour (workshop orange)
     cluster_platform: "Rancher",        // the management UI students log in to
     cluster_url: "rancher.example.edu", // where they download their kubeconfig
     account_wording: "your university account",
@@ -32,7 +32,6 @@
     institution: "Technical University of Munich",
     group: "Applied Software Engineering",
     presenter: "Matthias Linhuber",
-    accent: rgb("#3070B3"),             // TUM blue
     cluster_url: "rancher.ase.cit.tum.de",
     account_wording: "your TUM ID",
     ingress_base: "pedelec.k8s.ase.cit.tum.de",

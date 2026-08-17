@@ -1,9 +1,10 @@
 # Slides
 
 The workshop deck, written in [Typst](https://typst.app) with
-[Touying](https://typst.app/universe/package/touying) (metropolis theme). Every
-institution-specific value is a configuration variable, so you can rebuild the
-deck for your own cluster without editing any slide.
+[Touying](https://typst.app/universe/package/touying) and a custom light theme
+(`theme.typ`). Every institution-specific value, including the accent colour, is
+a configuration variable, so you can rebuild the deck for your own cluster
+without editing any slide.
 
 ## Build
 
@@ -46,7 +47,8 @@ variant (neutral placeholders). To reuse the deck:
 slides/
 ├── main.typ            # entrypoint: theme + config + includes every section
 ├── config.typ          # ALL configurable values (edit here)
-├── lib.typ             # shared imports + helpers (example(), img(), host())
+├── theme.typ           # custom light theme (accent-coloured, from config)
+├── lib.typ             # shared helpers (example(), img(), host())
 └── sections/
     ├── 00-intro.typ
     ├── 01-docker-compose.typ

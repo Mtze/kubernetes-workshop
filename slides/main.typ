@@ -1,28 +1,26 @@
-// Kubernetes Basics - workshop slide deck (Touying / metropolis).
+// Kubernetes Basics - workshop slide deck (Touying, custom TUM-style theme).
 //
 // Build:
-//   typst compile slides/main.typ                       # neutral defaults
-//   typst compile --input variant=tum slides/main.typ   # a named variant (see config.typ)
+//   typst compile --root . slides/main.typ                       # neutral defaults
+//   typst compile --root . --input variant=tum slides/main.typ   # a named variant (see config.typ)
 //
 // All institution-specific values come from config.typ.
 
-#import "lib.typ": *
+#import "@preview/touying:0.6.1": *
+#import "config.typ": cfg
+#import "theme.typ": *
 
-#show: metropolis-theme.with(
-  aspect-ratio: "16-9",
-  config-colors(primary: cfg.accent),
+#show: workshop-theme.with(
   config-info(
-    title: [Kubernetes Basics],
+    title: [Kubernetes (K8s) Basics],
     subtitle: [From Docker Compose to Helm on a real cluster],
     author: cfg.presenter,
     institution: if cfg.group == none { cfg.institution } else {
       cfg.institution + " · " + cfg.group
     },
+    logo: cfg.logo,
   ),
 )
-
-#show: codly-init.with()
-#codly(languages: codly-languages, zebra-fill: none)
 
 #title-slide()
 

@@ -107,8 +107,8 @@
   \begin{frame}[plain]
     \begin{tikzpicture}[remember picture, overlay]
       \fill[wsorange] (current page.north west) rectangle (current page.south east);
-      \node[text=white, align=center, font=\bfseries] at (current page.center)
-        {\fontsize{30}{36}\selectfont #1};
+      \node[text=white, align=center, font=\bfseries, text width=0.86\paperwidth] at (current page.center)
+        {\fontsize{28}{34}\selectfont #1};
       \node[anchor=north east, inner sep=0]
         at \pge{-0.85cm}{-0.7cm} {\includegraphics[height=0.95cm]{\wsLogoLight}};
     \end{tikzpicture}

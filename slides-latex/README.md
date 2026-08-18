@@ -11,16 +11,18 @@ dark-terminal code styling. All institution-specific values live in
 
 ## Build
 
-Beamer overlays position against the physical page via TikZ `remember picture`,
-so you must run **two passes**:
+Speech bubbles anchor to code lines with `tikzmark`, and overlays position
+against the physical page via `remember picture`. Both resolve through the
+`.aux` file, so a **clean build needs several passes**. Use `latexmk`, which
+runs as many as required:
 
 ```bash
 cd slides-latex
-pdflatex -interaction=nonstopmode main.tex
-pdflatex -interaction=nonstopmode main.tex   # second pass places overlays
+latexmk -pdf -interaction=nonstopmode main.tex
 ```
 
-(or `latexmk -pdf main.tex`, which handles the passes automatically).
+(Plain `pdflatex` works too, but run it 3 times on a fresh checkout - the first
+pass reports unresolved `tikzmark` references that clear on later passes.)
 
 ## Configure
 

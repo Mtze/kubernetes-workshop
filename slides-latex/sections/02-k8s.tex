@@ -24,6 +24,103 @@
   \end{tikzpicture}
 \end{frame}
 
+% --- Why Kubernetes? ---
+\begin{frame}{Why Kubernetes?}
+  \begin{itemize}
+    \item Infrastructure Abstraction
+    \item Automatic horizontal scaling
+    \item Automatic workload scheduling
+    \item Automated rollouts and rollbacks
+    \item Service discovery and load balancing
+    \item Storage orchestration
+    \item Secret and configuration management
+    \item Self-healing
+    \item Fully API driven
+  \end{itemize}
+\end{frame}
+
+% --- K8s is fundamentally different! (traditional pipeline) ---
+\begin{frame}{K8s is fundamentally different!}
+  \begin{itemize}\item {\color{wsorange}\textbf{Traditional}} Continuous Delivery Pipeline\end{itemize}
+  \vfill\centering
+  \begin{tikzpicture}
+    \node[single arrow, draw=none, fill=wsorange, text=white, minimum width=2.4cm, minimum height=1.1cm, align=center, font=\small\bfseries, inner sep=3pt] (a) {Stop Containers};
+    \node[single arrow, draw=none, fill=wsorange, text=white, minimum width=2.4cm, minimum height=1.1cm, align=center, font=\small\bfseries, inner sep=3pt, right=4pt of a] (b) {Pull new image};
+    \node[single arrow, draw=none, fill=wsorange, text=white, minimum width=2.4cm, minimum height=1.1cm, align=center, font=\small\bfseries, inner sep=3pt, right=4pt of b] (c) {Start DB};
+    \node[single arrow, draw=none, fill=wsorange, text=white, minimum width=2.4cm, minimum height=1.1cm, align=center, font=\small\bfseries, inner sep=3pt, right=4pt of c] (d) {Start Application};
+    \node[rectangle callout, rounded corners=8pt, fill=wsyellow, callout absolute pointer={(b.south)},
+      font=\bfseries\small, align=center, text width=4.2cm, below=1.2cm of b] {You specify \textbf{HOW} to do the deployment};
+  \end{tikzpicture}
+  \vfill
+\end{frame}
+
+% --- K8s is fundamentally different! (declarative wishlist) ---
+\begin{frame}{K8s is fundamentally different!}
+  \begin{itemize}
+    \item {\color{wsorange}\textbf{Declarative}} Deployment Workflow
+    \item State a Wishlist
+      \begin{itemize}
+        \item ``I want version 1.2.3 running''
+        \item ``I need the containers to restart on failure''
+        \item ``Always have 3 running instances''
+      \end{itemize}
+    \item Kubernetes will try its best to fulfill your wishlist:
+      \begin{itemize}\item {\color{wsorange}\textbf{Control Loop / Reconciliation Loop}}\end{itemize}
+  \end{itemize}
+  \begin{tikzpicture}[remember picture, overlay]
+    \bubble[text width=4cm]{\pg{10.6cm}{-2.3cm}}{\pg{7.4cm}{-2.5cm}}{You specify \textbf{WHAT} should be there}
+  \end{tikzpicture}
+\end{frame}
+
+% --- Reconciliation Loop (diagram) ---
+\begin{frame}{Reconciliation Loop}
+  \vfill\centering
+  \begin{tikzpicture}[every node/.style={font=\bfseries}]
+    \node[fill=wsorange, text=white, rounded corners=3pt, inner sep=7pt] (compare) at (0,1.8) {Compare};
+    \node[fill=wsorange, text=white, rounded corners=3pt, inner sep=7pt] (update) at (1.7,-1.0) {Update};
+    \node[fill=wsorange, text=white, rounded corners=3pt, inner sep=7pt] (observe) at (-1.7,-1.0) {Observe};
+    \draw[-{Stealth[length=7pt]}, line width=1.6pt] (observe) to[bend left=38] (compare);
+    \draw[-{Stealth[length=7pt]}, line width=1.6pt] (compare) to[bend left=38] (update);
+    \draw[-{Stealth[length=7pt]}, line width=1.6pt] (update) to[bend left=38] (observe);
+    \node[rectangle callout, rounded corners=7pt, fill=wsyellow, callout absolute pointer={(observe.west)},
+      font=\small\bfseries, text width=2.9cm, align=center] at (-5.1,-1.0) {What is the current state};
+    \node[rectangle callout, rounded corners=7pt, fill=wsyellow, callout absolute pointer={(compare.east)},
+      font=\small\bfseries, text width=3.4cm, align=center] at (4.9,1.8) {Current state == desired state?};
+    \node[rectangle callout, rounded corners=7pt, fill=wsyellow, callout absolute pointer={(update.east)},
+      font=\small\bfseries, text width=3.4cm, align=center] at (5.2,-1.0) {Current state $\leftarrow$ Desired state};
+    \node[rectangle callout, rounded corners=7pt, fill=wsyellow, callout absolute pointer={(observe.south)},
+      font=\small\bfseries, text width=3.6cm, align=center] at (-2.4,-3.4) {Kubernetes has many of these loops!};
+  \end{tikzpicture}
+  \vfill
+\end{frame}
+
+% --- How to Kubernetes? ---
+\begin{frame}[fragile]{How to Kubernetes?}
+  \begin{columns}[c]
+    \column{0.5\textwidth}
+      \begin{itemize}
+        \item Built around {\color{wsorange}\textbf{API Objects}}
+        \item Everything in K8s has a {\color{wsorange}\textbf{name}}
+        \item {\color{wsorange}\textbf{Declarative}} definition of state
+          \begin{itemize}\item ``This is how I want it!'' $\rightarrow$ Kubernetes Manifests\end{itemize}
+        \item CLI Tool: {\color{wsorange}\textbf{kubectl}}
+        \item GUI Tool: {\color{wsorange}\textbf{FreeLens}}
+      \end{itemize}
+    \column{0.48\textwidth}
+      \begin{yamlbox}
+\begin{lstlisting}[style=wsyamlstyle, basicstyle=\ttfamily\small]
+apiVersion: <API VERSION>
+kind: <API Object>
+metadata:
+  name: <Object Name>
+  namespace: <Object Namespace>
+spec:
+  <Object Specification>
+\end{lstlisting}
+      \end{yamlbox}
+  \end{columns}
+\end{frame}
+
 % --- Kubernetes Management: Rancher ---
 \begin{frame}{Kubernetes Management: \wsClusterPlatform}
   \begin{columns}[c]

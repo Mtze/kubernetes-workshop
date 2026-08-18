@@ -4,77 +4,10 @@
 
 \begin{document}
 
-\titleframe
-
-% ---- Who are we? ----
-\begin{frame}{Who are we?}
-  \begin{columns}[T]
-    \column{0.62\textwidth}
-      \begin{itemize}
-        \item \textbf{\wsPresenter}
-        \item Doctoral Student at \wsInstitution
-        \item Educator at heart
-        \item Software and Infrastructure Architect
-        \item Research Areas
-          \begin{itemize}
-            \item Container-based Software Engineering
-            \item Infrastructure Orchestration
-            \item Scaling Education Technology
-          \end{itemize}
-      \end{itemize}
-    \column{0.34\textwidth}
-      \centering\includegraphics[height=0.62\paperheight]{assets/author.jpg}
-  \end{columns}
-\end{frame}
-
-% ---- Example: services (speech bubbles + terminal) ----
-\begin{frame}[fragile]{Example: \texttt{services}}
-  \begin{columns}[T]
-    \column{0.56\textwidth}
-      Create a \texttt{compose.yml} file:
-      \yamlfile{../slide-examples/01-docker-compose-single-service/compose.yml}
-      \medskip
-
-      Start the compose with:
-      \begin{termbox}
-\begin{lstlisting}[style=wstermstyle]
-~/workshop> docker compose up
-\end{lstlisting}
-      \end{termbox}
-    \column{0.42\textwidth}
-  \end{columns}
-  \begin{tikzpicture}[remember picture, overlay]
-    \bubble{\pg{10cm}{-2.7cm}}{\pg{5.6cm}{-3.1cm}}{We create a \texttt{service} called ``app''}
-    \bubble{\pg{10cm}{-4.4cm}}{\pg{5.6cm}{-4.3cm}}{From the \texttt{image} ``hello-world''}
-  \end{tikzpicture}
-\end{frame}
-
-% ---- section divider ----
-\sectionframe{Kubernetes Packaging: Helm}
-
-% ---- What is Kubernetes? (orange band + logos + bubble) ----
-\begin{frame}{What is Kubernetes?}
-  \orangeband{Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications.}
-  \vfill
-  \begin{columns}[c]
-    \column{0.28\textwidth}
-      \centering\includegraphics[height=3cm]{assets/k8s-logo.png}
-    \column{0.44\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \draw[thick] (0,0) rectangle (5,3);
-        \node[anchor=north west] at (0.15,2.85) {\footnotesize Kubernetes Cluster};
-      \end{tikzpicture}
-    \column{0.28\textwidth}
-      \centering\includegraphics[height=2.2cm]{assets/cncf-logo.png}
-  \end{columns}
-  \vfill
-  \begin{tikzpicture}[remember picture, overlay]
-    \bubble{\pg{5.2cm}{-7.2cm}}{\pg{3cm}{-5.8cm}}{Kubernetes originates from Greek,\\ meaning ``helmsman'' or ``pilot''}
-  \end{tikzpicture}
-\end{frame}
-
-% ---- break ----
-\breakframe
+\input{sections/00-intro.tex}
+\input{sections/01-compose.tex}
+% \input{sections/02-k8s.tex}
+% \input{sections/03-helm.tex}
+% \input{sections/04-wrapup.tex}
 
 \end{document}

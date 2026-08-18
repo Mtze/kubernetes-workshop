@@ -3,7 +3,7 @@
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{xcolor}
 \usepackage{tikz}
-\usetikzlibrary{shapes.callouts, arrows.meta, positioning, calc}
+\usetikzlibrary{shapes.callouts, arrows.meta, positioning, calc, tikzmark}
 \usepackage{tcolorbox}
 \tcbuselibrary{skins, listings}
 \usepackage{listings}
@@ -50,10 +50,28 @@
 
 % ---- speech bubble (use inside a tikz [remember picture, overlay] picture) ----
 % \bubble{at-point}{pointer-point}{text}
-\newcommand{\bubble}[3]{%
+\newcommand{\bubble}[4][text width=4.3cm]{%
   \node[rectangle callout, rounded corners=9pt, fill=wsyellow, draw=none,
-        callout absolute pointer={#2},
-        inner sep=9pt, align=center, font=\bfseries\small] at #1 {#3};%
+        callout absolute pointer={#3}, inner sep=8pt, align=center,
+        font=\bfseries\small, #1] at #2 {#4};%
+}
+
+% \bubbleat{at-point}{markname}{text} -- bubble whose tail points at a \tikzmark{markname}
+% placed inside a listing (use escapeinside, e.g. (*\tikzmark{app}*) ).
+\newcommand{\bubbleat}[4][text width=4.3cm]{%
+  \node[rectangle callout, rounded corners=9pt, fill=wsyellow, draw=none,
+        callout absolute pointer={([xshift=1.1cm]pic cs:#3)},
+        inner sep=8pt, align=center, font=\bfseries\small, #1] at #2 {#4};%
+}
+
+% \topband{fraction}{title} -- orange band across the top of a [plain] frame,
+% with the title (white) at left and the light logo at right. Use inside an overlay.
+\newcommand{\topband}[2]{%
+  \fill[wsorange] (current page.north west) rectangle ([yshift=-#1\paperheight]current page.north east);
+  \node[anchor=north west, text=white, inner sep=0] at \pg{0.85cm}{-0.4cm}
+    {\fontsize{27}{33}\selectfont\bfseries #2};
+  \node[anchor=north east, inner sep=0] at \pge{-0.85cm}{-0.55cm}
+    {\includegraphics[height=0.85cm]{\wsLogoLight}};
 }
 
 % ---- full-width orange band (highlight / definition) ----
@@ -132,6 +150,7 @@
   columns=fullflexible,
   keepspaces=true,
   breaklines=false,
+  escapeinside={(*}{*)},
   aboveskip=0pt, belowskip=0pt,
 }
 \lstdefinestyle{wstermstyle}{
@@ -139,6 +158,7 @@
   showstringspaces=false,
   columns=fullflexible,
   keepspaces=true,
+  escapeinside={(*}{*)},
   aboveskip=0pt, belowskip=0pt,
 }
 
@@ -158,3 +178,10 @@
 
 % image reference helper: \imgref{reservation}
 \newcommand{\imgref}[1]{\texttt{\wsImageRegistry/\wsImageOwner/pedelec-#1:latest}}
+
+% placeholder for third-party memes/stock images that are not redistributed
+\newcommand{\removedimage}[1]{%
+  \setlength{\fboxsep}{0pt}%
+  \fcolorbox{black!18}{black!4}{\parbox[c][3.2cm][c]{6.4cm}{\centering
+    {\color{wsgrey}\small [\,image not included\,]}\\[2pt]{\color{wsgrey}\scriptsize #1}}}%
+}

@@ -48,3 +48,8 @@ slides-latex/main.pdf
 # Raw extracted image dump (working only; curated assets are tracked)
 slides-latex/assets/orig/
 slides-latex/assets/keynote/
+slides-latex/*.fdb_latexmk
+slides-latex/*.fls
+slides-latex/*.synctex.gz
+slides-latex/*.bbl
+slides-latex/*.blg

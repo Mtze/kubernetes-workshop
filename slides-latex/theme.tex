@@ -203,6 +203,14 @@
   ting/.style={draw=black!55, fill=wsnavy!18, rounded corners=1pt, minimum width=1.7cm, minimum height=0.95cm, align=center, font=\scriptsize},
 }
 
+% "hands-on" laptop icon marking exercise / task slides
+\newcommand{\exicon}{%
+  \raisebox{-0.5pt}{\begin{tikzpicture}[baseline]
+    \draw[wsorange, line width=1pt, fill=wsorange!15, rounded corners=0.4pt] (0,0.15) rectangle (0.46,0.48);
+    \draw[wsorange, line width=1pt, fill=wsorange] (-0.09,0) -- (0.55,0) -- (0.46,0.15) -- (0,0.15) -- cycle;
+  \end{tikzpicture}}\,\,%
+}
+
 % placeholder for third-party memes/stock images that are not redistributed
 \newcommand{\removedimage}[1]{%
   \setlength{\fboxsep}{0pt}%

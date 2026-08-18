@@ -65,7 +65,7 @@
 \end{frame}
 
 % --- Exercise: Get access to Rancher ---
-\begin{frame}{Exercise: Get Access To \wsClusterPlatform}
+\begin{frame}{\exicon Exercise: Get Access To \wsClusterPlatform}
   \vspace{1cm}
   \begin{enumerate}
     \item Task 1: open \underline{\wsClusterURL}
@@ -75,7 +75,7 @@
 \end{frame}
 
 % --- Exercise: kubectl ---
-\begin{frame}{Exercise: kubectl}
+\begin{frame}{\exicon Exercise: kubectl}
   \begin{enumerate}
     \item Task 1: download the \texttt{kubeconfig}
     \item Task 2: put the \texttt{kubeconfig} into \texttt{\textasciitilde/.kube/config}
@@ -307,7 +307,7 @@ kubectl rollout undo deployment <name>    # revert
   \end{termbox}
 \end{frame}
 
-\begin{frame}{Exercise: Deployment for the reservation system}
+\begin{frame}{\exicon Exercise: Deployment for the reservation system}
   \begin{enumerate}
     \item \sout{Task 1: configure the cluster to pull from a private registry} (see appendix)
     \item Task 2: create a deployment manifest for the reservation system
@@ -315,11 +315,11 @@ kubectl rollout undo deployment <name>    # revert
   \bigskip You can use the templates in your repo as a starting point.
 \end{frame}
 
-\begin{frame}{Task 2: Create reservation deployment}
+\begin{frame}{\exicon Task 2: Create reservation deployment}
   \centering\includegraphics[height=0.72\paperheight]{assets/dia-pedelec-ssd.pdf}
 \end{frame}
 
-\begin{frame}[fragile]{Task 2: reservation deployment manifest}
+\begin{frame}[fragile]{\exicon Task 2: reservation deployment manifest}
   \begin{columns}[c]
     \column{0.52\textwidth}
       \yamlfile{../slide-examples/13-kubernetes-deployment-reservation/reservation-deployment.yml}
@@ -427,14 +427,14 @@ spec:
   \begin{center}\colorbox{wsyellow}{\bfseries\small Single point of entry to all selected (``backing'') Pods}\end{center}
 \end{frame}
 
-\begin{frame}{Exercise: Service for the reservation system}
+\begin{frame}{\exicon Exercise: Service for the reservation system}
   \begin{enumerate}
     \item Task 1: create a Service manifest for the reservation system
     \item Task 2: get the Service details using \texttt{kubectl}
   \end{enumerate}
 \end{frame}
 
-\begin{frame}[fragile]{Task 1: reservation service manifest}
+\begin{frame}[fragile]{\exicon Task 1: reservation service manifest}
   \begin{columns}[c]
     \column{0.52\textwidth}
       \yamlfile{../slide-examples/15-kubernetes-service-reservation/reservation-service.yml}
@@ -521,7 +521,7 @@ spec:
   \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Exercise: Ingress for the Pedelec server}
+\begin{frame}{\exicon Exercise: Ingress for the Pedelec server}
   \begin{enumerate}
     \item Task 1: single Ingress deployment
     \item Task 2: test the endpoints with Bruno

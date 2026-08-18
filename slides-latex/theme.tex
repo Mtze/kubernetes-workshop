@@ -1,0 +1,220 @@
+% Custom Beamer theme matching the original workshop deck.
+\usepackage[scaled=0.92]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[normalem]{ulem}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts, shapes.arrows, arrows.meta, positioning, calc, tikzmark}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, listings}
+\usepackage{listings}
+
+% ---- colours ----
+\definecolor{wsorange}{HTML}{F08C00}
+\definecolor{wsyellow}{HTML}{FFC93C}
+\definecolor{wsnavy}{HTML}{1B1B2B}
+\definecolor{wscodebg}{HTML}{F6F6F8}
+\definecolor{wskey}{HTML}{7A3EA8}
+\definecolor{wsstr}{HTML}{2E7D32}
+\definecolor{wsgreen}{HTML}{9CE05B}
+\definecolor{wsgrey}{HTML}{9A9A9A}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{normal text}{fg=black, bg=white}
+\setbeamerfont{frametitle}{series=\bfseries, size=\Large}
+
+% ---- frame title: bold black + logo top-right + orange rule ----
+\setbeamertemplate{frametitle}{%
+  \vskip6pt
+  \begin{minipage}[b]{\dimexpr\paperwidth-1.2cm\relax}%
+    {\bfseries\Large\insertframetitle}%
+    \hfill\raisebox{-3pt}{\includegraphics[height=0.82cm]{\wsLogoDark}}%
+  \end{minipage}\par
+  \vskip2pt
+  {\color{wsorange}\rule{\dimexpr\paperwidth-1.2cm\relax}{1.2pt}}%
+  \vskip1pt
+}
+
+% ---- footline: presenter (left) + boxed page number (right) ----
+\setbeamertemplate{footline}{%
+  \hbox to \paperwidth{%
+    \hskip0.6cm{\color{wsgrey}\scriptsize Workshop: Kubernetes Basics - \wsPresenter}%
+    \hfill{\color{wsgrey}\scriptsize\fbox{\insertframenumber}}\hskip0.6cm}%
+  \vskip4pt
+}
+
+% ---- page-relative coordinate helper for overlays ----
+% \pg{xshift}{yshift} = a point measured from the page's north-west corner.
+\newcommand{\pg}[2]{([xshift=#1, yshift=#2]current page.north west)}
+% \pge{xshift}{yshift} = a point measured from the page's north-east corner.
+\newcommand{\pge}[2]{([xshift=#1, yshift=#2]current page.north east)}
+
+% ---- speech bubble (use inside a tikz [remember picture, overlay] picture) ----
+% \bubble{at-point}{pointer-point}{text}
+\newcommand{\bubble}[4][text width=4.3cm]{%
+  \node[rectangle callout, rounded corners=9pt, fill=wsyellow, draw=none,
+        callout absolute pointer={#3}, inner sep=8pt, align=center,
+        font=\bfseries\small, #1] at #2 {#4};%
+}
+
+% \bubbleat{at-point}{markname}{text} -- bubble whose tail points at a \tikzmark{markname}
+% placed inside a listing (use escapeinside, e.g. (*\tikzmark{app}*) ).
+\newcommand{\bubbleat}[4][text width=4.3cm]{%
+  \node[rectangle callout, rounded corners=9pt, fill=wsyellow, draw=none,
+        callout absolute pointer={([xshift=1.1cm]pic cs:#3)},
+        inner sep=8pt, align=center, font=\bfseries\small, #1] at #2 {#4};%
+}
+
+% \topband{fraction}{title} -- orange band across the top of a [plain] frame,
+% with the title (white) at left and the light logo at right. Use inside an overlay.
+\newcommand{\topband}[2]{%
+  \fill[wsorange] (current page.north west) rectangle ([yshift=-#1\paperheight]current page.north east);
+  \node[anchor=north west, text=white, inner sep=0] at \pg{0.85cm}{-0.4cm}
+    {\fontsize{27}{33}\selectfont\bfseries #2};
+  \node[anchor=north east, inner sep=0] at \pge{-0.85cm}{-0.55cm}
+    {\includegraphics[height=0.85cm]{\wsLogoLight}};
+}
+
+% ---- full-width orange band (highlight / definition) ----
+\newcommand{\orangeband}[1]{%
+  \par\smallskip\noindent
+  \begin{tikzpicture}
+    \node[fill=wsorange, text=white, inner sep=11pt, align=left,
+          text width=\dimexpr\textwidth-22pt\relax, font=\large]{#1};%
+  \end{tikzpicture}\par\smallskip
+}
+
+% ---- title / section / break frames ----
+\newcommand{\titleframe}{%
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture, overlay]
+      \fill[wsorange] (current page.north west) rectangle ([yshift=-0.42\paperheight]current page.north east);
+      \node[anchor=north west, text=white, inner sep=0, align=left]
+        at \pg{0.85cm}{-0.9cm} {\fontsize{32}{38}\selectfont\bfseries \wsTitle};
+      \node[anchor=north east, inner sep=0]
+        at \pge{-0.85cm}{-0.7cm} {\includegraphics[height=0.95cm]{\wsLogoLight}};
+      \node[anchor=north west, text=wsorange, font=\Large\bfseries, inner sep=0]
+        at \pg{0.9cm}{-0.5\paperheight} {\wsSubtitle};
+      \node[anchor=north west, font=\bfseries, inner sep=0]
+        at \pg{0.9cm}{-0.62\paperheight} {\large\wsPresenter};
+      \node[anchor=north west, text=wsgrey, inner sep=0]
+        at \pg{0.9cm}{-0.68\paperheight} {\wsInstitution};
+    \end{tikzpicture}
+  \end{frame}
+}
+
+\newcommand{\sectionframe}[1]{%
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture, overlay]
+      \fill[wsorange] (current page.north west) rectangle (current page.south east);
+      \node[text=white, align=center, font=\bfseries, text width=0.86\paperwidth] at (current page.center)
+        {\fontsize{28}{34}\selectfont #1};
+      \node[anchor=north east, inner sep=0]
+        at \pge{-0.85cm}{-0.7cm} {\includegraphics[height=0.95cm]{\wsLogoLight}};
+    \end{tikzpicture}
+  \end{frame}
+}
+
+\newcommand{\breakframe}{%
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[anchor=north, font=\bfseries] at \pg{0.5\paperwidth}{-0.8cm}
+        {\fontsize{32}{38}\selectfont Break};
+      \node[anchor=north east, inner sep=0]
+        at \pge{-0.85cm}{-0.7cm} {\includegraphics[height=0.95cm]{\wsLogoDark}};
+      \node at (current page.center) {\includegraphics[height=0.52\paperheight]{assets/break-illustration.jpg}};
+      \node[anchor=south, text=wsgrey, font=\scriptsize] at ([yshift=0.45cm]current page.south)
+        {Workshop: Kubernetes Basics - \wsPresenter};
+    \end{tikzpicture}
+  \end{frame}
+}
+
+% ---- code listings ----
+\lstdefinelanguage{wsyaml}{
+  sensitive=true,
+  morecomment=[l]{\#},
+  morestring=[b]",
+  morekeywords={services,image,ports,expose,environment,networks,volumes,configs,secrets,
+    build,depends_on,command,restart,container_name,
+    apiVersion,kind,metadata,name,namespace,labels,annotations,spec,replicas,selector,
+    matchLabels,template,containers,containerPort,port,targetPort,protocol,nodePort,type,
+    rules,host,http,paths,path,pathType,backend,number,tls,hosts,secretName,ingressClassName,
+    replicaCount,repository,tag,resources,requests,limits,cpu,memory,imagePullSecrets},
+}
+\lstdefinestyle{wsyamlstyle}{
+  language=wsyaml,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{wskey},
+  commentstyle=\color{wsgrey}\itshape,
+  stringstyle=\color{wsstr},
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=false,
+  escapeinside={(*}{*)},
+  aboveskip=0pt, belowskip=0pt,
+}
+\lstdefinestyle{wstermstyle}{
+  basicstyle=\ttfamily\footnotesize\color{wsgreen},
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  escapeinside={(*}{*)},
+  aboveskip=0pt, belowskip=0pt,
+}
+
+% light rounded box for manifests
+\newtcolorbox{yamlbox}{
+  colback=wscodebg, colframe=black!12, boxrule=0.6pt, arc=4pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt, before skip=4pt, after skip=4pt,
+}
+% dark rounded box for terminals
+\newtcolorbox{termbox}{
+  colback=wsnavy, colframe=wsnavy, arc=4pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt, before skip=4pt, after skip=4pt,
+}
+
+% \yamlfile{path} -- render a slide-examples file as a light manifest box
+\newcommand{\yamlfile}[1]{\begin{yamlbox}\lstinputlisting[style=wsyamlstyle]{#1}\end{yamlbox}}
+
+% image reference helper: \imgref{reservation}
+\newcommand{\imgref}[1]{\texttt{\wsImageRegistry/\wsImageOwner/pedelec-#1:latest}}
+
+% object-model recap: the UML map with an orange highlight box drawn at a
+% fractional bounding box {fx1}{fy1}{fx2}{fy2} of the diagram (0..1, from SW).
+\newcommand{\objframe}[4]{%
+  \begin{frame}{Kubernetes objects}
+    \vfill\centering
+    \begin{tikzpicture}
+      \node[inner sep=0] (dia) {\includegraphics[height=0.66\paperheight]{assets/dia-object-model.pdf}};
+      \coordinate (hax) at ($(dia.west)!#1!(dia.east)$);
+      \coordinate (hay) at ($(dia.south)!#2!(dia.north)$);
+      \coordinate (hbx) at ($(dia.west)!#3!(dia.east)$);
+      \coordinate (hby) at ($(dia.south)!#4!(dia.north)$);
+      \draw[wsorange, line width=3pt, rounded corners=2pt] (hax |- hay) rectangle (hbx |- hby);
+    \end{tikzpicture}\vfill
+  \end{frame}%
+}
+
+% topology node styles (Service / Ingress build-up diagrams)
+\tikzset{
+  tpod/.style={draw=black!55, fill=wsyellow!80, rounded corners=1pt, minimum width=1.7cm, minimum height=0.95cm, align=center, font=\scriptsize},
+  tsvc/.style={draw=black!55, fill=wsstr!30, rounded corners=1pt, minimum width=1.7cm, minimum height=0.95cm, align=center, font=\scriptsize},
+  ting/.style={draw=black!55, fill=wsnavy!18, rounded corners=1pt, minimum width=1.7cm, minimum height=0.95cm, align=center, font=\scriptsize},
+}
+
+% "hands-on" laptop icon marking exercise / task slides
+\newcommand{\exicon}{%
+  \raisebox{-0.5pt}{\begin{tikzpicture}[baseline]
+    \draw[wsorange, line width=1pt, fill=wsorange!15, rounded corners=0.4pt] (0,0.15) rectangle (0.46,0.48);
+    \draw[wsorange, line width=1pt, fill=wsorange] (-0.09,0) -- (0.55,0) -- (0.46,0.15) -- (0,0.15) -- cycle;
+  \end{tikzpicture}}\,\,%
+}
+
+% placeholder for third-party memes/stock images that are not redistributed
+\newcommand{\removedimage}[1]{%
+  \setlength{\fboxsep}{0pt}%
+  \fcolorbox{black!18}{black!4}{\parbox[c][3.2cm][c]{6.4cm}{\centering
+    {\color{wsgrey}\small [\,image not included\,]}\\[2pt]{\color{wsgrey}\scriptsize #1}}}%
+}

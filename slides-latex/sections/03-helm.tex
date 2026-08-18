@@ -1,0 +1,130 @@
+% ===== Block 3: Helm (slides 95-103) =====
+\breakframe
+\sectionframe{Kubernetes Packaging: Helm}
+
+\begin{frame}{What is a Helm Chart}
+  Helm Charts help you define, install, and upgrade even the most complex
+  Kubernetes application. Charts are easy to create, version, share, and publish
+  - so start using Helm and stop the copy-and-paste.
+  \medskip
+
+  \emph{Remember the hassle changing the namespace?}
+  \begin{itemize}
+    \item Three+ Concepts
+      \begin{itemize}
+        \item The \textbf{chart} is a bundle of information necessary to create an instance of a Kubernetes application.
+        \item The \textbf{values} contain configuration merged into a packaged chart to create a releasable object.
+        \item A \textbf{release} is a running instance of a chart, combined with a specific config.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Helm Motivation}
+  \begin{itemize}
+    \item \textbf{Reusable \& Shareable:} version, reuse, and distribute your deployments\\
+      $\rightarrow$ one chart can deploy to dev, staging, and production with different values
+    \item \textbf{Multi-Environment Support:} manage Test, Staging, and Production via separate values.yaml files
+    \item \textbf{Cloud Portability:} abstract infrastructure-specific configuration - move from GCP to AWS with minimal changes
+    \item \textbf{Simple Installation:} install off-the-shelf apps (e.g., Kafka, Grafana, NextCloud) with one command
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{What is an Helm Chart?}
+  \begin{termbox}
+\begin{lstlisting}[style=wstermstyle]
+~/workshop/helm> tree
+my-chart/
+  Chart.yaml      # Metadata (name, version, description)
+  values.yaml     # Default configuration values
+  templates/      # Templated Kubernetes manifests / YAML files
+  charts/         # Optional dependencies
+\end{lstlisting}
+  \end{termbox}
+  \begin{itemize}
+    \item Parameterized Kubernetes Manifests
+    \item Filled with values on install / upgrade
+    \item Optional Helper functions
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{The Helm value concept}
+  \begin{columns}[T]
+    \column{0.46\textwidth}
+      \begin{yamlbox}
+\begin{lstlisting}[style=wsyamlstyle, basicstyle=\ttfamily\scriptsize]
+# values.yml
+---
+replicaCount: 2
+
+image:
+  repository: myregistry/pedelec
+  tag: v1.2.0
+\end{lstlisting}
+      \end{yamlbox}
+    \column{0.52\textwidth}
+      \begin{yamlbox}
+\begin{lstlisting}[style=wsyamlstyle, basicstyle=\ttfamily\scriptsize]
+# Deployment Template
+---
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    spec:
+      containers:
+      - name: app1-container
+        image: "{{ .Values.image.repository }}"
+\end{lstlisting}
+      \end{yamlbox}
+  \end{columns}
+  \smallskip
+  \emph{These values are placed in on install. Notice - we no longer specify the namespace.}
+\end{frame}
+
+\begin{frame}[fragile]{Helm Getting Started}
+  \begin{itemize}\item Create a chart skeleton\end{itemize}
+  \begin{termbox}
+\begin{lstlisting}[style=wstermstyle]
+helm create pedelec
+\end{lstlisting}
+  \end{termbox}
+  \begin{itemize}\item Install a chart (release)\end{itemize}
+  \begin{termbox}
+\begin{lstlisting}[style=wstermstyle]
+helm -n <namespace> install <release-name> <chart>
+\end{lstlisting}
+  \end{termbox}
+  \begin{itemize}\item Update a release\end{itemize}
+  \begin{termbox}
+\begin{lstlisting}[style=wstermstyle]
+helm -n <namespace> upgrade <release-name> <chart>
+\end{lstlisting}
+  \end{termbox}
+\end{frame}
+
+\begin{frame}{\exicon Exercise: Create a Helm Chart for the Pedelec Server}
+  \begin{enumerate}
+    \item Task 1: Initialize the helm chart
+    \item Task 2: Copy over the manifests
+    \item Task 3: Remove namespace from all resources
+    \item Task 4: Replace hard-coded values with Templates
+  \end{enumerate}
+  \bigskip
+  The reference chart lives at \texttt{exercises/03-helm/solution/helm/pedelec}
+  and wraps the Block 2 Deployments, Services, and Ingress.
+\end{frame}
+
+\begin{frame}[fragile]{Useful commands}
+  \begin{termbox}
+\begin{lstlisting}[style=wstermstyle, basicstyle=\ttfamily\scriptsize\color{wsgreen}]
+helm install my-app ./my-chart                     # Starts the project
+helm install my-app -f values.dev.yaml ./my-chart  # Deploy with dev config
+helm install my-app -f values.prod.yaml ./my-chart # Deploy with prod config
+helm uninstall my-app                              # Uninstall and delete resources
+helm upgrade my-app ./my-chart                     # Upgrade the release
+helm template my-app ./my-chart                    # Print the manifest without installing
+helm lint ./my-chart                               # Validate chart structure
+\end{lstlisting}
+  \end{termbox}
+\end{frame}

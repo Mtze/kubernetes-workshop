@@ -1,0 +1,77 @@
+% ===== Intro (slides 1-4) =====
+
+% --- Slide 1: title band + overview ---
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture, overlay]
+    \topband{0.30}{\wsTitle}
+  \end{tikzpicture}
+  \vspace*{0.31\paperheight}
+
+  {\color{wsorange}\bfseries What you will build}\par\smallskip
+  In this workshop, you will start by working with Docker Compose to manage
+  multi-container setups, then deploy and explore the Pedelec server-side system.
+  You will learn to write Kubernetes manifests, interact with clusters using
+  \wsClusterPlatform{} and kubectl, and create Deployments, Services, and
+  Ingresses. By the end, you will have deployed a microservice architecture to
+  the cloud and gained hands-on experience with scalable, containerized
+  application management.\par\bigskip
+
+  \begin{columns}[T]
+    \column{0.34\textwidth}
+      {\color{wsorange}\bfseries Prerequisites}
+      \begin{itemize}
+        \item Containers \item Images \item Docker \item UML \item CLI
+      \end{itemize}
+    \column{0.6\textwidth}
+      {\color{wsorange}\bfseries Key Vocabulary}
+      \begin{columns}[T]
+        \column{0.5\textwidth}
+          \begin{itemize}
+            \item Compose File \item Kubernetes \item kubectl \item Manifest
+          \end{itemize}
+        \column{0.5\textwidth}
+          \begin{itemize}
+            \item Deployment \item Service \item Ingress \item Helm
+          \end{itemize}
+      \end{columns}
+  \end{columns}
+\end{frame}
+
+% --- Slide 2: Who are we ---
+\begin{frame}{Who are we?}
+  \begin{columns}[c]
+    \column{0.62\textwidth}
+      \begin{itemize}
+        \item \textbf{\wsPresenter}
+        \item Doctoral Student at \wsInstitution
+        \item Educator at heart
+        \item Software and Infrastructure Architect
+        \item Research Areas
+          \begin{itemize}
+            \item Container-based Software Engineering
+            \item Infrastructure Orchestration
+            \item Scaling Education Technology
+          \end{itemize}
+      \end{itemize}
+    \column{0.34\textwidth}
+      \centering\includegraphics[height=0.6\paperheight]{assets/author.jpg}
+  \end{columns}
+\end{frame}
+
+% --- Learning Goals ---
+\begin{frame}{Learning Goals}
+  {\color{wsorange}\bfseries Context and assumptions}
+  \begin{itemize}
+    \item You understand the basics of Docker
+    \item You understand the ISO/OSI Model
+    \item You know how to use the CLI
+  \end{itemize}
+  \bigskip
+  {\color{wsorange}\bfseries At the end of this session you are able to}
+  \begin{itemize}
+    \item Understand the key features of docker compose
+    \item Create and use custom docker compose setups
+    \item Understand the basic concepts of Kubernetes
+    \item Use kubectl and helm to interact with Kubernetes
+  \end{itemize}
+\end{frame}

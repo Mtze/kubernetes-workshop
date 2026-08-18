@@ -406,10 +406,48 @@ kubectl rollout undo deployment <name>    # revert
 
 \begin{frame}{\exicon Exercise: Deployment for the reservation system}
   \begin{enumerate}
-    \item \sout{Task 1: configure the cluster to pull from a private registry} (see appendix)
+    \item \sout{Task 1: configure the cluster to pull from a private registry} (only for a private registry)
     \item Task 2: create a deployment manifest for the reservation system
   \end{enumerate}
   \bigskip You can use the templates in your repo as a starting point.
+\end{frame}
+
+% --- Task 1: Configure pull secrets (private registry, optional) ---
+\begin{frame}{\exicon Task 1: Configure pull secrets}
+  \begin{itemize}
+    \item Create an access token to your registry with \texttt{read\_registry} scope
+      \begin{itemize}
+        \item e.g.\ in GitLab: Settings $>$ Repository $>$ Deploy tokens
+        \item e.g.\ in GHCR: a token with \texttt{read:packages}
+      \end{itemize}
+  \end{itemize}
+  \vfill\hfill\colorbox{wsorange}{\color{white}\bfseries\small Only needed for a private registry}
+\end{frame}
+
+\begin{frame}[fragile]{\exicon Task 1: Configure pull secrets}
+  Create the pull secret in your namespace:
+  \begin{termbox}
+\begin{lstlisting}[style=wstermstyle, basicstyle=\ttfamily\scriptsize]
+kubectl -n <namespace> create secret docker-registry regcred \
+  --docker-server=<your-registry> \
+  --docker-username=<username> \
+  --docker-password=<token>
+\end{lstlisting}
+  \end{termbox}
+  \vfill\hfill\colorbox{wsorange}{\color{white}\bfseries\small Only needed for a private registry}
+\end{frame}
+
+\begin{frame}[fragile]{\exicon Task 1: Configure pull secrets}
+  Reference the secret from the Pod (or Deployment template) spec:
+  \begin{yamlbox}
+\begin{lstlisting}[style=wsyamlstyle]
+spec:
+  imagePullSecrets:
+    - name: regcred
+\end{lstlisting}
+  \end{yamlbox}
+  \begin{itemize}\item Kubernetes can now pull the images without further intervention\end{itemize}
+  \vfill\hfill\colorbox{wsorange}{\color{white}\bfseries\small Only needed for a private registry}
 \end{frame}
 
 \begin{frame}{\exicon Task 2: Create reservation deployment}
@@ -531,6 +569,10 @@ spec:
   \end{enumerate}
 \end{frame}
 
+\begin{frame}{\exicon Task 1: Create reservation service}
+  \centering\includegraphics[height=0.72\paperheight]{assets/dia-pedelec-ssd.pdf}
+\end{frame}
+
 \begin{frame}[fragile]{\exicon Task 1: reservation service manifest}
   \begin{columns}[c]
     \column{0.52\textwidth}
@@ -543,6 +585,14 @@ spec:
 % ===== Ingress =====
 \objframe{0.315}{0.01}{0.565}{0.10}   % Ingress
 
+% ISO/OSI (Ingress at Layer 7)
+\begin{frame}{ISO/OSI Model}
+  \centering\includegraphics[width=\textwidth,height=0.66\paperheight,keepaspectratio]{assets/dia-osi.pdf}
+  \begin{tikzpicture}[remember picture, overlay]
+    \bubble{\pg{10.7cm}{-2.2cm}}{\pg{8.3cm}{-2.2cm}}{The Ingress lives here (Layer 7)}
+  \end{tikzpicture}
+\end{frame}
+
 \begin{frame}{Kubernetes Ingresses}
   \orangeband{An Ingress is a Kubernetes API object that manages external access
   to services in a cluster, typically via HTTP/HTTPS.}
@@ -553,6 +603,30 @@ spec:
     \item Path-based and host-based routing
     \item An ingress needs to be implemented by an \textbf{IngressController}
   \end{itemize}
+\end{frame}
+
+% Ingress build-up: service exposed
+\begin{frame}{Services}
+  \textbf{Kubernetes Cluster}
+  \vfill\centering
+  \begin{tikzpicture}
+    \node[tsvc] (svc) at (2.2,2.0) {\scriptsize$\ll$Service$\gg$\\Reservation};
+    \foreach \x/\n in {0/1,1.5/2,3/3,4.5/4} \node[tpod] (p\n) at (\x,0) {\scriptsize$\ll$Pod$\gg$\\Reservation};
+    \foreach \n in {1,2,3,4} \draw (svc) -- (p\n);
+  \end{tikzpicture}\vfill
+\end{frame}
+
+% Ingress build-up: single service route
+\begin{frame}{Services}
+  \textbf{Kubernetes Cluster}\hfill\texttt{\wsIngressBase}
+  \vfill\centering
+  \begin{tikzpicture}
+    \node[ting] (ing) at (2.2,3.4) {\scriptsize$\ll$Ingress$\gg$\\Pedelec};
+    \node[tsvc] (svc) at (2.2,1.7) {\scriptsize$\ll$Service$\gg$\\Reservation};
+    \foreach \x/\n in {0/1,1.5/2,3/3,4.5/4} \node[tpod] (p\n) at (\x,0) {\scriptsize$\ll$Pod$\gg$\\Reservation};
+    \draw (ing) -- node[right, font=\tiny]{\texttt{/reservation}} (svc);
+    \foreach \n in {1,2,3,4} \draw (svc) -- (p\n);
+  \end{tikzpicture}\vfill
 \end{frame}
 
 \begin{frame}{Ingress: path-based fan-out}

@@ -10,4 +10,3 @@ build, verify you have the right to use them, or swap in your own:
 - `cncf-logo.png` - Cloud Native Computing Foundation logo (CNCF trademark).
 - `break-illustration.jpg` - stock-style illustration; confirm its license.
 - `author.jpg` - the presenter's own photo.
-- `nginx-1.jpg`, `nginx-2.jpg` - screenshots of the nginx demo page.

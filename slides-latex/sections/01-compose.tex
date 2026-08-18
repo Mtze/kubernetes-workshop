@@ -126,6 +126,17 @@ services:
   \end{tikzpicture}
 \end{frame}
 
+% --- Example: Inspect our services (screenshots) ---
+\begin{frame}{Example: Inspect our \texttt{services}}
+  \begin{itemize}\item Each container has an (unique) IP address\end{itemize}
+  \vfill\centering
+  \begin{columns}[c]
+    \column{0.46\textwidth}\centering\removedimage{nginx demo page \\ (shows 172.20.0.2:80)}
+    \column{0.46\textwidth}\centering\removedimage{nginx demo page \\ (shows 172.20.0.3:80)}
+  \end{columns}
+  \vfill
+\end{frame}
+
 % --- Configure Containers: environment (1 bubble) ---
 \begin{frame}[fragile]{Configure Containers: \texttt{environment}}
   \begin{itemize}\item Inject variables into containers\end{itemize}
@@ -216,6 +227,36 @@ docker compose up
   \end{termbox}
 \end{frame}
 
+% --- Exercise: Pedelec App API ---
+\begin{frame}{\exicon Exercise: Pedelec App API}
+  \begin{enumerate}
+    \item Task 1: Open Bruno
+    \item Task 2: Open the Bruno config
+    \item Task 3: Check if the API is working
+  \end{enumerate}
+\end{frame}
+
+% --- The Docker Compose File (revisited) ---
+\begin{frame}{The Docker Compose File}
+  \begin{itemize}
+    \item Docker compose files are written in \textbf{yaml}: \texttt{compose.yaml}
+    \item Defining:
+      \begin{itemize}
+        \item \texttt{services} {\color{wsstr}$\checkmark$}
+          \begin{itemize}
+            \item Abstraction of a computing resource
+            \item A valid \texttt{compose.yaml} has to specify at least one service
+          \end{itemize}
+        \item \texttt{networks}
+          \begin{itemize}
+            \item Abstraction of a communication channel
+            \item Handle service discovery
+          \end{itemize}
+        \item \texttt{volumes} / \texttt{configs} / \texttt{secrets}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
 % --- Example: networks (diagrams) ---
 \begin{frame}{Example: \texttt{networks}}
   \begin{itemize}\item Architecture we created with \texttt{ports}\end{itemize}
@@ -256,6 +297,23 @@ services:
     \bubbleat{\pg{10.5cm}{-5.0cm}}{n3}{We replaced the \texttt{port} mapping with an \texttt{expose} to limit access to the ``mynet'' network}
     \bubbleat{\pg{10.5cm}{-6.6cm}}{n4}{We explicitly define a \texttt{network}}
   \end{tikzpicture}
+\end{frame}
+
+% --- docker compose ps (networks) ---
+\begin{frame}[fragile]{\texttt{docker compose ps}}
+  Updated \texttt{compose.yaml} with a private network:
+  \begin{termbox}
+\begin{lstlisting}[style=wstermstyle, basicstyle=\ttfamily\scriptsize\color{wsgreen}]
+~/workshop> docker compose ps
+NAME       IMAGE             SERVICE  STATUS         PORTS
+app1-1     nginxdemos/hello  app1     Up 15 seconds  0.0.0.0:8080->80/tcp
+app2-1     nginxdemos/hello  app2     Up 15 seconds  80/tcp
+\end{lstlisting}
+  \end{termbox}
+  \begin{itemize}
+    \item app1 is reachable from outside the network: \texttt{port}
+    \item app2 is only reachable from within the network: \texttt{expose}
+  \end{itemize}
 \end{frame}
 
 % --- Useful commands ---
@@ -340,6 +398,22 @@ docker compose pull     # Pulls the images of all services
     \item \textbf{Observability and Monitoring:} Integrate logging, metrics, and tracing
     \item \textbf{Resilience and Fault Tolerance:} Retries, circuit breakers, graceful degradation
   \end{itemize}
+\end{frame}
+
+% --- Pedelec Server Side (scalability review) ---
+\begin{frame}{Pedelec Server Side}
+  \begin{columns}[c]
+    \column{0.62\textwidth}
+      \centering\includegraphics[width=\linewidth]{assets/dia-pedelec-ssd.pdf}
+    \column{0.34\textwidth}
+      Reviewing against the scalability aspects:
+      \begin{itemize}
+        \item DB Shards {\color{wsstr}$\checkmark$}
+        \item Stateless Controller {\color{wsstr}$\checkmark$}
+        \item API Specs {\color{wsstr}$\checkmark$}
+        \item Event Framework?
+      \end{itemize}
+  \end{columns}
 \end{frame}
 
 % --- Problems with scaling ---

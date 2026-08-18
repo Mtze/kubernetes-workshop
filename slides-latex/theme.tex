@@ -1,6 +1,7 @@
 % Custom Beamer theme matching the original workshop deck.
 \usepackage[scaled=0.92]{helvet}
 \renewcommand{\familydefault}{\sfdefault}
+\usepackage[normalem]{ulem}
 \usepackage{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{shapes.callouts, arrows.meta, positioning, calc, tikzmark}
@@ -178,6 +179,29 @@
 
 % image reference helper: \imgref{reservation}
 \newcommand{\imgref}[1]{\texttt{\wsImageRegistry/\wsImageOwner/pedelec-#1:latest}}
+
+% object-model recap: the UML map with an orange highlight box drawn at a
+% fractional bounding box {fx1}{fy1}{fx2}{fy2} of the diagram (0..1, from SW).
+\newcommand{\objframe}[4]{%
+  \begin{frame}{Kubernetes objects}
+    \vfill\centering
+    \begin{tikzpicture}
+      \node[inner sep=0] (dia) {\includegraphics[height=0.66\paperheight]{assets/dia-object-model.pdf}};
+      \coordinate (hax) at ($(dia.west)!#1!(dia.east)$);
+      \coordinate (hay) at ($(dia.south)!#2!(dia.north)$);
+      \coordinate (hbx) at ($(dia.west)!#3!(dia.east)$);
+      \coordinate (hby) at ($(dia.south)!#4!(dia.north)$);
+      \draw[wsorange, line width=3pt, rounded corners=2pt] (hax |- hay) rectangle (hbx |- hby);
+    \end{tikzpicture}\vfill
+  \end{frame}%
+}
+
+% topology node styles (Service / Ingress build-up diagrams)
+\tikzset{
+  tpod/.style={draw=black!55, fill=wsyellow!80, rounded corners=1pt, minimum width=1.7cm, minimum height=0.95cm, align=center, font=\scriptsize},
+  tsvc/.style={draw=black!55, fill=wsstr!30, rounded corners=1pt, minimum width=1.7cm, minimum height=0.95cm, align=center, font=\scriptsize},
+  ting/.style={draw=black!55, fill=wsnavy!18, rounded corners=1pt, minimum width=1.7cm, minimum height=0.95cm, align=center, font=\scriptsize},
+}
 
 % placeholder for third-party memes/stock images that are not redistributed
 \newcommand{\removedimage}[1]{%
